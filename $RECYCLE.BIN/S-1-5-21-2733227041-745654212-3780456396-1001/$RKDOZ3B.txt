@@ -1,0 +1,205 @@
+#include <stdio.h>
+struct Node {
+   int data;
+   struct Node* link;
+};
+
+struct Node* Head=NULL;
+
+void Insert_After(int key,int value)
+{
+    struct Node * temp=Head;
+    int found =0;
+    while(temp->link!=NULL)
+    {
+        if(temp->data==key)
+        {
+            found=1;
+            struct Node* temp2 = (struct Node*)malloc(sizeof(struct Node));
+             temp2->data=value;
+             temp2->link=temp->link;
+             temp->link =temp2;
+             return;
+        }
+        else
+        {
+            temp=temp->link;
+        }
+    }
+    if(found==0)
+    {
+        printf("The value wasn't found in the list.\n");
+    }
+}
+
+void Insert_Before(int key,int value)
+{
+    struct Node * current=Head;
+    struct Node * prev=Head;
+    int found =0;
+    if(Head->data==key)
+    {
+        Insert_Top(value);
+        return;
+    }
+    while(current->link!=NULL)
+    {
+        if(current->data==key)
+        {
+            found=1;
+            struct Node* temp2 = (struct Node*)malloc(sizeof(struct Node));
+             temp2->data=value;
+             temp2->link=current;
+             prev->link=temp2;
+             return;
+        }
+        else
+        {
+            prev=current;
+            current=current->link;
+        }
+    }
+    if(found==0)
+    {
+        printf("The value wasn't found in the list.\n");
+    }
+}
+
+
+void Insert_Top(int x)
+{
+     struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+     temp->data=x;
+     temp->link=Head;
+     Head=temp;
+}
+
+
+void Insert(int x)
+{
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data=x;
+    temp->link=NULL;
+    if(Head==NULL)
+    {
+        Head=temp;
+        return ;
+    }
+    struct Node* temp2=Head;
+    while(temp2->link!=NULL)
+    {
+        temp2=temp2->link;
+    }
+    temp2->link=temp;
+
+
+}
+
+void Delete_Top()
+{
+    struct Node * temp=Head;
+    Head=temp->link;
+
+}
+void Delete_Bottom()
+{
+
+    struct Node* prev = Head;
+    struct Node* current = Head;
+    while(current->link!=NULL)
+    {
+        prev=current;
+        current=current->link;
+    }
+    prev->link=NULL;
+    free(current);
+
+
+}
+void Print()
+{
+    struct Node* temp =Head;
+
+    if(temp==NULL)
+    {
+        printf("List is empty.");
+    }
+    else printf("List is : ");
+    while(temp!=NULL)
+    {
+        printf("%d ",temp->data);
+        temp=temp->link;
+    }
+    printf("\n");
+}
+int main()
+{
+
+        int menu,x,key,value;
+        while(1)
+        {
+            printf("Chose an option:\n");
+            printf("Press 1 to insert \n:");
+            printf("Press 2 to print \n");
+            printf("Press 3 to Insert at the top.\n");
+            printf("Press 4 to Insert after a number.\n");
+            printf("Press 5 to Insert before a number.\n");
+            printf("Press 6 to Delete first number.\n");
+            printf("Press 7 to Delete last number.\n");
+            printf("Press 0 to exit \n");
+            scanf("%d",&menu);
+            if(menu==1)
+            {
+                printf("Enter a number :");
+                scanf("%d",&x);
+                Insert(x);
+                Print();
+            }
+            else if(menu==2)
+            {
+                Print();
+            }
+           else  if(menu==3)
+            {
+                printf("Enter a number to insert at the top :");
+                scanf("%d",&x);
+                Insert_Top(x);
+                Print();
+            }
+           else  if(menu==4)
+            {
+                printf("Enter a key :");
+                scanf("%d",&key);
+                printf("Enter a value :");
+                scanf("%d",&value);
+                Insert_After(key,value);
+                Print();
+            }
+            else  if(menu==5)
+            {
+                printf("Enter a key :");
+                scanf("%d",&key);
+                printf("Enter a value :");
+                scanf("%d",&value);
+                Insert_Before(key,value);
+                Print();
+            }
+             else  if(menu==6)
+            {
+                Delete_Top();
+                Print();
+            }
+             else  if(menu==7)
+            {
+                Delete_Bottom();
+                Print();
+            }
+            else if(menu==0)
+            {
+                break;
+            }
+
+        }
+
+    return 0;
+}
